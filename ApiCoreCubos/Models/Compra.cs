@@ -14,6 +14,6 @@ namespace ApiCoreCubos.Models
         [Column("id_usuario")]
         public int IdUsuario { get; set; }
         [Column("fechapedido")]
-        public int Fecha { get; set; }
+        public DateTime Fecha { get; set; }
     }
 }
