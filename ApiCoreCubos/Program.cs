@@ -1,9 +1,12 @@
 using ApiCoreCubos.Data;
+using ApiCoreCubos.Helpers;
 using ApiCoreCubos.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+HelperActionServicesOAuth helper = new HelperActionServicesOAuth(builder.Configuration);
+builder.Services.AddSingleton<HelperActionServicesOAuth>(helper);
 
 builder.Services.AddTransient<RepositoryCubos>();
 string connectionString = builder.Configuration.GetConnectionString("SqlAzure");

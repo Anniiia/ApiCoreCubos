@@ -28,20 +28,15 @@ namespace ApiCoreCubos.Repositories
             return cubos;
         }
 
-        public async Task RegisterUsuarioAsync(string nombre, string email, string password, string imagen)
+        public async Task RegisterUsuarioAsync(string nombre, string email, string password)
         {
             Usuario user = new Usuario();
             user.IdUsuario = await this.GetMaxIdUsuarioAsync();
             user.Nombre = nombre;
             user.Email = email;
             user.Password = password;
-            if (imagen != null)
-            {
-                user.Imagen = imagen;
-            }
-            else {
-                user.Imagen = "";
-            }
+            user.Imagen = "";
+    
             this.context.Usuarios.Add(user);
             await this.context.SaveChangesAsync();
 
@@ -57,6 +52,16 @@ namespace ApiCoreCubos.Repositories
             {
                 return await this.context.Usuarios.MaxAsync(z => z.IdUsuario) + 1;
             }
+        }
+
+        public async Task<Usuario> LoginUsuarioAsync(string email, string password)
+        {
+            return await this.context.Usuarios.Where(x => x.Email == email && x.Password == password).FirstOrDefaultAsync();
+        }
+
+        public async Task<List<Compra>> GetComprasUsuarioAsync(int idUsuario)
+        {
+            return await this.context.Compras.Where(z => z.IdUsuario == idUsuario).ToListAsync();
         }
     }
 }
